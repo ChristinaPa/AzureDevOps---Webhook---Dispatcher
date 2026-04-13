@@ -57,7 +57,7 @@ In the [Azure Portal](https://portal.azure.com):
 
 ## 2. Create Function Source Code
 
-Initialize the function project locally using the Azure Functions Core Tools (`func init` and `func new` commands).
+Initialize the function project locally using the Azure Functions Core Tools. See [`setup-commands.sh`](setup-commands.sh) for the commands to run.
 
 ### Prerequisites
 
@@ -199,6 +199,7 @@ There are several ways to host the webhook handler. Here's a comparison:
 host.json                          # Azure Functions host configuration
 local.settings.json                # Local app settings / environment variables
 package.json                       # Node.js project metadata
+setup-commands.sh                  # Setup commands for initializing the project
 devops-workitem-webhook/
   function.json                    # Function bindings (HTTP trigger)
   index.js                         # Webhook handler
