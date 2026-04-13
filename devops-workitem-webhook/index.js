@@ -6,8 +6,9 @@ module.exports = async function (context, req) {
     const resource = payload?.resource;
 
     const workItemId = resource?.workItemId || resource?.id;
-    const newState = resource?.revision?.fields?.["System.State"];
-    const workItemType = resource?.revision?.fields?.["System.WorkItemType"];
+
+    const newState = resource?.fields?.["System.State"]?.newValue;
+    const workItemType = resource?.fields?.["System.WorkItemType"]?.newValue;
 
     // Only react to Features
     if (workItemType !== "Feature") {
