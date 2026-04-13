@@ -10,6 +10,9 @@ module.exports = async function (context, req) {
     const newState = resource?.fields?.["System.State"]?.newValue;
     const workItemType = resource?.fields?.["System.WorkItemType"]?.newValue;
 
+    context.log("WorkItemType:", workItemType);
+    context.log("NewState:", newState);
+
     // Only react to Features
     if (workItemType !== "Feature") {
         context.res = { status: 200 };
