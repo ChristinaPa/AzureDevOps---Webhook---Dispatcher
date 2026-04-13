@@ -111,7 +111,7 @@ In the [Azure Portal](https://portal.azure.com):
    - **Organization**: `ChristinaPa`
    - **Repository**: `ado-feature-trigger-function`
    - **Branch**: `main`
-6. Azure will automatically set up a GitHub Actions workflow (or use Kudu-based deployment) to build and deploy the function on every push to the selected branch.
+6. Azure will **automatically generate a GitHub Actions workflow file** (e.g. `.github/workflows/main_<function-app-name>.yml`) and commit it to your repository. This workflow handles building and deploying the function on every push to the selected branch — you do not need to create it manually.
 7. Click **Save**.
 
 Once configured, any push to `main` will automatically deploy the updated function code to Azure.
@@ -156,6 +156,8 @@ The workflow:
 
 - Triggers on `repository_dispatch` events with type `ado_workitem_state_changed`
 - Uses `actions/github-script` to create a GitHub Issue with the work item ID and new state
+
+> **Note:** Creating a GitHub Issue is just one example. Your workflow can do whatever you need — trigger a deployment, send a Slack notification, update a dashboard, run tests, sync data, or any other automation. The `client_payload` (containing `workItemId` and `newState`) is available to all steps in the workflow.
 
 Commit this to the **default branch (`main`)**.
 
