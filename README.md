@@ -31,6 +31,18 @@ GitHub Action Workflow Executes
 
 ---
 
+### Why not call GitHub directly from ADO?
+
+You might wonder why we don't skip the Azure Function and point the ADO Service Hook directly at the GitHub `repository_dispatch` API. The reason is that ADO Service Hooks have limitations that make this impossible:
+
+- **No payload transformation** — ADO sends its own fixed JSON structure (`resource`, `fields`, etc.). GitHub's `repository_dispatch` API expects a specific format (`event_type` + `client_payload`). There is no way to reshape the body in the ADO webhook UI.
+- **No custom auth headers** — GitHub requires an `Authorization: Bearer <token>` header. ADO's Service Hook configuration does not support adding arbitrary HTTP headers.
+- **No conditional logic** — The function only dispatches to GitHub when `System.State` has actually changed, filtering out updates to other fields. ADO's webhook fires on *any* work item update and offers no way to add this logic.
+
+The Azure Function acts as a lightweight **translator** between the two APIs — it receives ADO's payload, extracts the relevant data, and forwards it in the format GitHub expects, with the correct authentication.
+
+---
+
 ## End-to-End Flow
 
 When the **state of any work item changes** in Azure DevOps:
