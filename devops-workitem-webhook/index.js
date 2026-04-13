@@ -25,27 +25,26 @@ module.exports = async function (context, req) {
     const repo = process.env.GITHUB_REPO;
     const token = process.env.GITHUB_TOKEN;
 
-    await fetch(
-        `https://api.github.com/repos/${owner}/${repo}/dispatches`,
-        {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                Accept: "application/vnd.github+json",
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                event_type: "ado_feature_state_changed",
-                client_payload: {
-                    workItemId,
-                    newState
-                }
-            })
-        }
-    );
 
-    context.res = {
-        status: 200,
-        body: "GitHub workflow triggered"
-    };
+    const response = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/dispatches`,
+    {
+        method: "POST",
+        headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/vnd.github+json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            event_type: "ado_feature_state_changed",
+            client_payload: {
+                workItemId,
+                newState
+            }
+        })
+    }
+);
+
+context.log("GitHub response status:", response.status);
+
 };
